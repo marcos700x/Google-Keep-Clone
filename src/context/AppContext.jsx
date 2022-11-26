@@ -5,7 +5,6 @@ export const AuxContext = createContext()
 
 const AppContext = ({ children }) => {
 
-  const currentUserLocation = useLocation();
   const [showMenu, setShowMenu] = useState(false);
   const [notes, setNotes] = useState([])
   const [trashNotes, setTrashNotes] = useState([])
@@ -15,6 +14,10 @@ const AppContext = ({ children }) => {
   const [showEditForm, setShowEditForm] = useState(false)
   const [ noteToEdit, setNoteToEdit ] = useState({})
   const [ noteToPin, setNoteToPin ] = useState({})
+  const [ noteSearch, setNoteSearch ] = useState('')
+  const [ filterNotes, setFilterNotes ] = useState([])
+
+  const currentUserLocation = useLocation();
 
 
   useEffect(() => {
@@ -61,6 +64,10 @@ const AppContext = ({ children }) => {
       setNotePinned,
       noteToPin, 
       setNoteToPin,
+      noteSearch, 
+      setNoteSearch,
+      filterNotes, 
+      setFilterNotes
     }}>
       {children}
     </AuxContext.Provider>

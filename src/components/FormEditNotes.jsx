@@ -1,7 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { AuxContext } from '../context/AppContext'
 import ColorCheckmar from './ColorCheckmar'
+import { BsPin } from 'react-icons/bs'
+import { BsPinFill } from 'react-icons/bs'
 import { notifyError } from './Toastify'
 
 
@@ -10,6 +12,16 @@ const FormEditNotes = () => {
     const colors = ['#5C2B29', '#614A19', '#635D19', '#345920', '#16504B', '#2D555E', '#1E3A5F', '#42275E', '#5B2245', '#442F19', '#3C3F43', '#202124'] 
 
     const { noteToEdit, setShowEditForm, notes, colorNote, setColorNote, setNotes } = useContext(AuxContext)
+
+    const [editNotePin, setEditNotePin] = useState(noteToEdit.isPinned)
+    
+    useEffect(() => {
+        colors.forEach((color) => {
+            if(color === noteToEdit.color){
+                setColorNote(noteToEdit.color)
+            }
+        })
+    }, [])
 
     const editNote = () => {
 
@@ -24,6 +36,7 @@ const FormEditNotes = () => {
             if(item.id === noteToEdit.id){
                 item.title =titleNote;
                 item.text = textNote;
+                item.isPinned = editNotePin;
                 item.color = colorNote;
                 return item
             }
@@ -39,7 +52,15 @@ const FormEditNotes = () => {
 
   return (
     <StyledFormEditNotes>
+        <div className="row">
+            <div className="col-10">
         <input id='inputTitle' type="text" name='title'  placeholder='Title' autoComplete='false' spellCheck='false' defaultValue={noteToEdit.title}/>
+            </div>
+            <div className="col-2 d-flex justify-content-center align-items-center">
+            { editNotePin &&<BsPinFill color='#fff' size={'1.2rem'}  className="pinToggle" onClick={() => setEditNotePin(!editNotePin)}/> }
+        { !editNotePin && <BsPin color='#fff' size={'1.2rem'} className='pinToggle' onClick={() => setEditNotePin(!editNotePin)}/>}
+            </div>
+        </div>
             <div id='inputNote' className='textarea' contentEditable='plaintext-only' placeholder='Create a note...' name='note' spellCheck='false' suppressContentEditableWarning={true}>
                 { noteToEdit.text }
             </div>

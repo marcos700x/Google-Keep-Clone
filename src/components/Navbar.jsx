@@ -9,7 +9,16 @@ import { AiFillLayout } from 'react-icons/ai'
 
 const Navbar = () => {
 
-    const { showMenu, setShowMenu, ListView, setListView, trashNotes,  setTrashNotes } = useContext(AuxContext)
+    const { showMenu, setShowMenu, ListView, setListView, setNoteSearch, notes, noteSearch, setFilterNotes, currentUserLocation } = useContext(AuxContext)
+
+    const handleChange = ({ target: { value } }) => {
+        setNoteSearch(value.toLowerCase())
+    }
+    useEffect(() => {
+        if(!noteSearch) return;
+        let aux = notes.filter((item) => item.title.toLowerCase().match(noteSearch) || item.text.toLowerCase().match(noteSearch))
+        setFilterNotes(aux)
+    }, [noteSearch])
 
     return (
         <StyledNavbar>
@@ -18,7 +27,7 @@ const Navbar = () => {
                 <img src={gkeep_logo} width={'40'} className="me-2" />
                 <span style={{ fontSize: '22px', color: 'rgba(255,255,255,0.87)' }} className="d-none d-md-block">Keep</span>
             </div>
-            <input type="search" placeholder='Search' className='col-7 col-lg-6' />
+            {currentUserLocation.pathname !== '/trash' && <input type="search" placeholder='Search' className='col-7 col-lg-6' onChange={handleChange}/>}
             <div className="d-flex flex-row align-items-center justify-content-end col-auto col-lg-4 gap-4 d-none d-md-flex">
                 {
                     ListView ?
@@ -59,6 +68,14 @@ input{
     }
     &:focus{
         background-color: #fff;
+        @media screen and (max-width: 768px){
+            width: 95%;
+            left: 0;
+            right: 0;
+            margin: auto;
+         position: absolute;
+        }
+
         &::placeholder{
             color: #525355;
         }
