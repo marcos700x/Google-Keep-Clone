@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 export const AuxContext = createContext()
@@ -9,8 +9,35 @@ const AppContext = ({ children }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [notes, setNotes] = useState([])
   const [trashNotes, setTrashNotes] = useState([])
-  const [colorNote, setColorNote] = useState('')
+  const [notePinned, setNotePinned] = useState(false)
+  const [colorNote, setColorNote] = useState('#202124')
   const [ListView, setListView] = useState(false)
+  const [showEditForm, setShowEditForm] = useState(false)
+  const [ noteToEdit, setNoteToEdit ] = useState({})
+  const [ noteToPin, setNoteToPin ] = useState({})
+
+
+  useEffect(() => {
+    if(!JSON.parse(localStorage.getItem('trashNotes')) || JSON.parse(localStorage.getItem('trashNotes')).length === 0) return;
+      let localTrashNotes = localStorage.getItem("trashNotes")
+      setTrashNotes(JSON.parse(localTrashNotes))
+  },[])
+
+  useEffect(() => {
+    if(!JSON.parse(localStorage.getItem('notes')) || JSON.parse(localStorage.getItem("notes")).length === 0) return;
+    let localNotes = localStorage.getItem("notes")
+       setNotes(JSON.parse(localNotes))
+},[ ])
+  
+  useEffect(() => {
+    localStorage.setItem("trashNotes", JSON.stringify(trashNotes))
+  }, [trashNotes])
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes))
+ }, [notes])
+
+
 
 
   return (
@@ -26,6 +53,14 @@ const AppContext = ({ children }) => {
       setTrashNotes,
       ListView, 
       setListView,
+      showEditForm,
+      setShowEditForm,
+      noteToEdit, 
+      setNoteToEdit,
+      notePinned, 
+      setNotePinned,
+      noteToPin, 
+      setNoteToPin,
     }}>
       {children}
     </AuxContext.Provider>

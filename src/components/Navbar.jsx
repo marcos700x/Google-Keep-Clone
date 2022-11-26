@@ -9,21 +9,12 @@ import { AiFillLayout } from 'react-icons/ai'
 
 const Navbar = () => {
 
-    const { showMenu, setShowMenu, ListView, setListView } = useContext(AuxContext)
-
-
-    const handleShowMenu = () => {
-        setShowMenu(!showMenu)
-    }
-    const handleToggleListView = () => {
-        setListView(!ListView)
-    }
-
+    const { showMenu, setShowMenu, ListView, setListView, trashNotes,  setTrashNotes } = useContext(AuxContext)
 
     return (
         <StyledNavbar>
             <div className="d-flex flex-row align-items-center col-auto col-lg-2">
-                <FiMenu color='#fff' size={'1.5rem'} className="me-3" onClick={handleShowMenu} style={{ cursor: 'pointer' }} />
+                <FiMenu color='#fff' size={'1.5rem'} className="me-3" onClick={()=> setShowMenu(!showMenu)} style={{ cursor: 'pointer' }} />
                 <img src={gkeep_logo} width={'40'} className="me-2" />
                 <span style={{ fontSize: '22px', color: 'rgba(255,255,255,0.87)' }} className="d-none d-md-block">Keep</span>
             </div>
@@ -31,9 +22,9 @@ const Navbar = () => {
             <div className="d-flex flex-row align-items-center justify-content-end col-auto col-lg-4 gap-4 d-none d-md-flex">
                 {
                     ListView ?
-                        <AiFillLayout color='#fff' size={'1.5rem'} onClick={handleToggleListView} style={{cursor:'pointer'}}/>
+                        <AiFillLayout color='#fff' size={'1.5rem'} onClick={() => setListView(!ListView)} style={{cursor:'pointer'}}/>
                         :
-                        <TbLayoutDistributeHorizontal color='#fff' size={'1.5rem'} onClick={handleToggleListView} style={{cursor:'pointer'}}/>
+                        <TbLayoutDistributeHorizontal color='#fff' size={'1.5rem'} onClick={() => setListView(!ListView)} style={{cursor:'pointer'}}/>
                 }
             </div>
         </StyledNavbar>
@@ -47,6 +38,10 @@ box-shadow: inset 0 -1px 0 0 #5f6368;
 display: flex;
 justify-content: space-between;
 align-items: center;
+position: fixed;
+width: 100%;
+z-index: 3;
+background-color: #202124;
 
 input{
     background-color: #525355;

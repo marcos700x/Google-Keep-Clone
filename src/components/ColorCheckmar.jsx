@@ -35,18 +35,14 @@ align-items: center;
 width: 100%;
 .backgroundForm{
     position: absolute;
-    left: 0; bottom: 0;
+    left: 0; bottom: 0; top: 0;
     margin: auto;
     background-color: ${props => props.color};
-    border-radius: 50%;
     width: 0px;
     z-index: -1;
-    aspect-ratio:1;
+    height: 100%;
     transition: all .6s ease;
-    transform: translateX(-7.5%) translateY(50%)
 }
-
-
     input{
         appearance: none;
         visibility: hidden;
@@ -59,9 +55,7 @@ width: 100%;
                 border: 2px solid white;
             }
             ~ .backgroundForm{
-                width: 700px;
-                /* border-radius: 8px; */
-
+                width: 100%;
             }
         }
     }

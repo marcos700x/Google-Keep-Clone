@@ -3,25 +3,25 @@ import styled from 'styled-components'
 import { AiOutlineBulb } from 'react-icons/ai'
 import { RiDeleteBin7Line } from 'react-icons/ri';
 import { AuxContext } from '../context/AppContext';
-import { Link, useLocation } from 'react-router-dom';
+import { Link  } from 'react-router-dom';
 
 
 const AsideMenu = () => {
     
-    const { showMenu, currentUserLocation } = useContext(AuxContext)
+    const { showMenu, currentUserLocation, setShowMenu } = useContext(AuxContext)
 
 
 
   return (
     <StyledAsideMenu showMenu={showMenu} className={` shadow`}>
-          <Link to={'/'}>
+          <Link to={'/'} onClick={() => setShowMenu(false)}>
         <div className='menuAsideLinks'>
           { currentUserLocation.pathname === '/' && <div className='currentLink'></div>}
         <AiOutlineBulb color='#fff' size={'1.5rem'} className={`asideLinks`}  />
         <span>Notes</span>
         </div>
           </Link>
-          <Link to={'/trash'}>
+          <Link to={'/trash'} onClick={() => setShowMenu(false)}>
         <div className='menuAsideLinks'>
         { currentUserLocation.pathname === '/trash' && <div className='currentLink'></div>}
         <RiDeleteBin7Line color='#fff' size={'1.5rem'} className={`asideLinks`}  />
@@ -37,6 +37,8 @@ const StyledAsideMenu = styled.aside`
 transition: all .05s ease;
 height: calc(100vh - 64px);
 background-color: #202124;
+position: fixed;
+bottom: 0;
 display: flex;
 flex-direction: column;
 overflow: hidden;
